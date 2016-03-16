@@ -34,7 +34,11 @@ It has below features:
 valued from config server.
 
 ### Bar Service
-Bar service, code in [bar service](services/bar). No REST API implemented yet.
+Bar service, code in [bar service](services/bar). Fake REST API for it:
+
+```
+curl http://<host>:<port>/message
+```
 
 It has below features:
 
