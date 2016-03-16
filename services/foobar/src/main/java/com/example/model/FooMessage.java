@@ -1,9 +1,16 @@
 package com.example.model;
 
+import com.eureka2.shading.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 /**
  * Created by libin on 3/16/16.
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FooMessage {
+    private String name;
+    private String message;
+
     public String getName() {
         return name;
     }
@@ -20,6 +27,8 @@ public class FooMessage {
         this.message = message;
     }
 
-    private String name;
-    private String message;
+    @Override
+    public String toString() {
+        return name + ":" + message;
+    }
 }
