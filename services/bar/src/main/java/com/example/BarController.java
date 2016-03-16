@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.model.BarMessage;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class BarController {
 
     @RequestMapping("/message")
-    String getMessage(){
-        return "Bar Message.";
+    BarMessage getMessage() {
+        BarMessage barmsg = new BarMessage();
+        barmsg.setMessage("Greeting from Bar Service.");
+        return barmsg;
     }
 }
