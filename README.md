@@ -43,3 +43,11 @@ curl http://<host>:<port>/message
 It has below features:
 
 - discovery client enabled, register itself to discovery-server automatically.
+
+### Foobar Service
+
+Foobar service will get results from foo and bar, generate result by turn two messages to one.
+
+```
+curl http://<host>:<port>/message
+```
