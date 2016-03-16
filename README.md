@@ -30,6 +30,8 @@ It has below features:
 
 - config client enabled, get config from config-server.
 - discovery client enabled, register itself to discovery-server automatically.
+- actuator enabled, post to /refresh endpoint will refresh config data, get
+valued from config server.
 
 ### Bar Service
 Bar service, code in [bar service](services/bar). No REST API implemented yet.
