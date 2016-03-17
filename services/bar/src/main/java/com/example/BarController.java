@@ -1,6 +1,9 @@
 package com.example;
 
 import com.example.model.BarMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,10 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BarController {
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @RequestMapping("/message")
-    BarMessage getMessage() {
+    public BarMessage getMessage() {
         BarMessage barmsg = new BarMessage();
-        barmsg.setMessage("Greeting from Bar Service.");
+        barmsg.setMessage(getLocalInstanceInfo());
         return barmsg;
+    }
+
+    private String getLocalInstanceInfo(){
+        ServiceInstance serviceInstance = discoveryClient.getLocalServiceInstance();
+        return serviceInstance.getServiceId() + "@"
+                + serviceInstance.getHost() + ":"
+                + serviceInstance.getPort();
     }
 }
