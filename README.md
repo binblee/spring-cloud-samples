@@ -46,7 +46,18 @@ It has below features:
 
 ### Foobar Service
 
-Foobar service will get results from foo and bar, generate result by turn two messages to one.
+Foobar service will get results from foo and bar, generate result by turn two
+messages to one. It uses loadBalancerClient to do client side load balancing.
+
+```
+curl http://<host>:<port>/message
+```
+
+### Foobar-ribbon Service
+
+Similar to foobar service, this is a service that consume other services.
+It uses @RibbonClient annoation and configuration class to do Ribbon client
+side load balance.
 
 ```
 curl http://<host>:<port>/message
