@@ -24,6 +24,11 @@ public class BarController {
         return barmsg;
     }
 
+    @RequestMapping(value = "/")
+    public String home(){
+        return "bar";
+    }
+
     private String getLocalInstanceInfo(){
         ServiceInstance serviceInstance = discoveryClient.getLocalServiceInstance();
         return serviceInstance.getServiceId() + "@"
