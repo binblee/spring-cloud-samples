@@ -31,25 +31,32 @@ public class FoobarController {
 
     @RequestMapping("/message")
     FoobarMessage getMessage(){
-        RestTemplate restTemplate = new RestTemplate();
-
-        URI fooUri = fetchServiceURI(FOO_SERVICE_NAME);
-        String fooUriString = fooUri + "/message";
-        FooMessage foo = restTemplate.getForObject(fooUriString, FooMessage.class);
-        log.debug("From foo service @ {}: {}.",fooUriString, foo);
-
-        URI barUri = fetchServiceURI(BAR_SERVICE_NAME);
-        String barUriString = barUri + "/message";
-        BarMessage bar = restTemplate.getForObject(barUriString, BarMessage.class);
-        log.debug("From bar service @ {}: {}.", barUriString, bar);
-
-
+        BarMessage bar = getMessageFromBarService();
+        FooMessage foo = getMessageFromFooService();
         FoobarMessage foobar = new FoobarMessage();
         foobar.setBar(bar);
         foobar.setFoo(foo);
 
         log.debug("Result foobar message: {}.",foobar);
         return foobar;
+    }
+
+    private BarMessage getMessageFromBarService(){
+        RestTemplate restTemplate = new RestTemplate();
+        URI barUri = fetchServiceURI(BAR_SERVICE_NAME);
+        String barUriString = barUri + "/message";
+        BarMessage bar = restTemplate.getForObject(barUriString, BarMessage.class);
+        log.debug("From bar service @ {}: {}.", barUriString, bar);
+        return bar;
+    }
+
+    private FooMessage getMessageFromFooService(){
+        RestTemplate restTemplate = new RestTemplate();
+        URI fooUri = fetchServiceURI(FOO_SERVICE_NAME);
+        String fooUriString = fooUri + "/message";
+        FooMessage foo = restTemplate.getForObject(fooUriString, FooMessage.class);
+        log.debug("From foo service @ {}: {}.", fooUriString, foo);
+        return foo;
     }
 
     private URI fetchServiceURI(String serviceName){
