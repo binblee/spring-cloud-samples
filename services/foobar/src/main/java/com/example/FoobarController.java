@@ -41,6 +41,11 @@ public class FoobarController {
         return foobar;
     }
 
+    @RequestMapping(value = "/")
+    String home(){
+        return "foobar";
+    }
+
     private BarMessage getMessageFromBarService(){
         RestTemplate restTemplate = new RestTemplate();
         URI barUri = fetchServiceURI(BAR_SERVICE_NAME);
