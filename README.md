@@ -62,3 +62,12 @@ side load balance.
 ```
 curl http://<host>:<port>/message
 ```
+### Gateway Service
+
+It is edge service that is using Zuul as reverse proxy services. Foobar service
+is configured in gateway, so you can access foobar service through gateway in
+this way:
+
+```
+curl http://localhost:8080/f/message
+```
