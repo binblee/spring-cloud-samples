@@ -72,8 +72,6 @@ enabled.
 curl http://<host>:<port>/message
 ```
 
-
-
 ### Gateway Service
 
 It is edge service that is using Zuul as reverse proxy services. Foobar service
