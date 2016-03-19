@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,13 +22,14 @@ import java.net.URI;
 @RestController
 public class FoobarController {
 
-    @Autowired
-    private LoadBalancerClient loadBalancerClient;
-
     private static final Logger log = LoggerFactory.getLogger(FoobarController.class);
 
     private static final String FOO_SERVICE_NAME = "foo";
     private static final String BAR_SERVICE_NAME = "bar";
+
+    @Autowired
+    @LoadBalanced
+    private RestTemplate restTemplate;
 
     @RequestMapping("/message")
     FoobarMessage getMessage(){
@@ -47,25 +49,15 @@ public class FoobarController {
     }
 
     private BarMessage getMessageFromBarService(){
-        RestTemplate restTemplate = new RestTemplate();
-        URI barUri = fetchServiceURI(BAR_SERVICE_NAME);
-        String barUriString = barUri + "/message";
-        BarMessage bar = restTemplate.getForObject(barUriString, BarMessage.class);
-        log.debug("From bar service @ {}: {}.", barUriString, bar);
+        BarMessage bar = restTemplate.getForObject("http://bar/message", BarMessage.class);
+        log.debug("From bar service : {}.", bar);
         return bar;
     }
 
     private FooMessage getMessageFromFooService(){
-        RestTemplate restTemplate = new RestTemplate();
-        URI fooUri = fetchServiceURI(FOO_SERVICE_NAME);
-        String fooUriString = fooUri + "/message";
-        FooMessage foo = restTemplate.getForObject(fooUriString, FooMessage.class);
-        log.debug("From foo service @ {}: {}.", fooUriString, foo);
+        FooMessage foo = restTemplate.getForObject("http://foo/message", FooMessage.class);
+        log.debug("From foo service : {}.", foo);
         return foo;
     }
 
-    private URI fetchServiceURI(String serviceName){
-        ServiceInstance serviceInstance = loadBalancerClient.choose(serviceName);
-        return serviceInstance.getUri();
-    }
 }
