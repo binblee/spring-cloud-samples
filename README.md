@@ -62,6 +62,18 @@ side load balance.
 ```
 curl http://<host>:<port>/message
 ```
+
+### Foobar-hystrix Service
+
+A service to consume bar service result, with hystrix circuit breaker pattern
+enabled.
+
+```
+curl http://<host>:<port>/message
+```
+
+
+
 ### Gateway Service
 
 It is edge service that is using Zuul as reverse proxy services. Foobar service
