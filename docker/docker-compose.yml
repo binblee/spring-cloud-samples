@@ -1,0 +1,29 @@
+version: '2'
+services:
+  discovery:
+    image: binblee/discovery-server
+    ports:
+      - "8761:8761"
+  config-server:
+    image: binblee/config-server
+    ports:
+      - "8888:8888"
+  gateway:
+    image: binblee/gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery
+  foo:
+    image: binblee/foo
+    depends_on:
+      - discovery
+      - config-server
+  bar:
+    image: binblee/bar
+    depends_on:
+      - discovery
+  foobar:
+    image: binblee/foobar
+    depends_on:
+      - discovery
