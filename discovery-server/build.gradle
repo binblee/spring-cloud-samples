@@ -7,17 +7,37 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+apply plugin: 'docker'
+
+// This is used as the docker image prefix (org)
+group = 'binblee'
 
 jar {
-	baseName = 'discover-server'
+	baseName = 'discovery-server'
 	version = '0.0.1-SNAPSHOT'
 }
+
+// tag::task[]
+task buildDocker(type: Docker, dependsOn: build) {
+  push = true
+  applicationName = jar.baseName
+  dockerfile = file('src/main/docker/Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
+}
+// end::task[]
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
