@@ -12,18 +12,18 @@ services:
     image: binblee/gateway
     ports:
       - "8080:8080"
-    depends_on:
+    links:
       - discovery
   foo:
     image: binblee/foo
-    depends_on:
+    links:
       - discovery
       - config-server
   bar:
     image: binblee/bar
-    depends_on:
+    links:
       - discovery
   foobar:
     image: binblee/foobar
-    depends_on:
+    links:
       - discovery
